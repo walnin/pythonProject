@@ -11,12 +11,14 @@ with open(json_file_path, 'r') as jsonfile:
 
 
 with open(csv_file_path, 'w', newline='') as csvfile:
-    fieldnames = json_data[0]['payload'].keys()
+    fieldnames = ['Range', 'Temp']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
     writer.writeheader()
 
     for item in json_data:
-        writer.writerow(item['payload'])
+        object_json = item['payload']['objectJSON']
+        decode_data_string = json.loads(json.loads(object_json)['DecodeDataString'])
+        writer.writerow(decode_data_string)
 
 print("json파일이  csv파일로 저장되었습니다")
